@@ -53,7 +53,7 @@ function initCaptureDevice() {
 }
 
 function setup() {
-  createCanvas(640, 480); // we need some space...
+  createCanvas(windowWidth, windowHeight);
   initCaptureDevice(); // and access to the camera
   /*
     In this particular case the gfx helper should have dimensions the same as
