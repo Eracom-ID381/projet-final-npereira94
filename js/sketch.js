@@ -172,7 +172,8 @@ function mouseReleased() {
     The flag controlling the display of the image coming from the camera is
     switched by tap/click.
   */
-  showOryginalImageFlag = !showOryginalImageFlag;
+
+  //showOryginalImageFlag = !showOryginalImageFlag;
 }
 
 /*
