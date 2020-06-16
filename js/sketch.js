@@ -30,12 +30,14 @@ var ascii_arr;
 */
 var showOryginalImageFlag = false;
 var mode = 0;
+
+let radius = 0;
 /*
   Here we are trying to get access to the camera.
 */
 function initCaptureDevice() {
   try {
-    myCapture = createCapture(VIDEO);
+    //myCapture = createCapture(VIDEO);
     //myCapture.size(320, 240);
     //myCapture.elt.setAttribute('playsinline', '');
     myCapture.hide();
@@ -90,118 +92,101 @@ function setup() {
 }
 
 function draw() {
+
   let mappedX = map(mouseX, 0, width, 0, 120);
   let mappedY = map(mouseY, 0, height, 0, 60);
 
+  console.log(mode)
+  //if (myCapture !== null && myCapture !== undefined) { // safety first
+  background(0);
+  /*
+    Let's prepare the image for conversion. Although the object derived from
+    the AsciiArt pseudo-class has it's own mechanism of changing the size of
+    the image, we will use the external one. Thanks to this we will be able -
+    before transferring the image for conversion - to perform the posterize
+    effect on it, which will make the final effect better.
+  */
 
-  if (myCapture !== null && myCapture !== undefined) { // safety first
-    background(0);
-    /*
-      Let's prepare the image for conversion. Although the object derived from
-      the AsciiArt pseudo-class has it's own mechanism of changing the size of
-      the image, we will use the external one. Thanks to this we will be able -
-      before transferring the image for conversion - to perform the posterize
-      effect on it, which will make the final effect better.
-    */
+  if (mouseIsPressed) {
+    radius = radius + 0.1;
+    if (mode === 0) {
 
+      gfx.stroke(255, 0, 0);
+      gfx.fill(255, 0, 0, 128);
+      gfx.strokeWeight(1);
+      //  gfx.line(mappedX, mappedY, mappedX, mappedY);
+      gfx.ellipse(mappedX, mappedY, radius, radius);
+      console.log(radius)
 
-
-    if (mouseIsPressed) {
-      if (mode === 0) {
-
-        gfx.stroke(255, 0, 0);
-        fill(255, 0, 0);
-        gfx.strokeWeight(1);
-        gfx.line(mappedX, mappedY, mappedX, mappedY);
-      } else if (mode === 1) {
-
-        gfx.stroke(0, 255, 0);
-        fill(0);
-        gfx.strokeWeight(10);
-        gfx.line(mappedX, mappedY, mappedX, mappedY);
-      } else if (mode === 2) {
-        gfx.fill(0, 0, 255);
-        gfx.stroke(30, 100, 170);
-        gfx.strokeWeight(50);
-        gfx.line(mappedX, mappedY, mappedX, mappedY);
-      }
+    } else if (mode === 1) {
+      gfx.stroke(0, 255, 0);
+      fill(0);
+      gfx.strokeWeight(10);
+      gfx.line(mappedX, mappedY, mappedX, mappedY);
+    } else if (mode === 2) {
+      gfx.fill(0, 0, 255);
+      gfx.stroke(30, 100, 170);
+      gfx.strokeWeight(50);
+      gfx.line(mappedX, mappedY, mappedX, mappedY);
     }
-
-    function keyPressed() {
-
-      if (keyCode === BACKSPACE) {
-        mode = 0;
-
-      } else if (keyCode === UP_ARROW) {
-        mode = 1;
-
-      } else if (keyCode === LEFT_ARROW) {
-        mode = 2;
-
-      }
-    }
-    //  gfx.line(mouseX, mouseY, pmouseX, pmouseY);
-    //  gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
-    /*
-      It is worth experimenting with the value of the parameter defining the
-      level of posterization. Depending on the characteristics of the image,
-      different values may have the best effect. And sometimes it is worth not
-      to apply the effect of posterization on the image.
-    */
-    //gfx.filter(POSTERIZE, 5);
-    /*
-      Here the processed image is converted to the ASCII art. The convert()
-      function in this case is used with just one parameter (image we want to
-      convert), so the resultant ASCII graphics will have the same resolution
-      as the image. If necessary (especially if the resolution of the converted
-      image is relatively high), it is possible to use the converter function
-      in the version with three parameters: then the second and third
-      parameters will be respectively the width and height of the generated
-      glyph table. The convert() function returns a two-dimensional array of
-      characters containing the representation of the converted graphics in the
-      form of the ASCII art. If the conversion fails, the function returns
-      null.
-    */
-    ascii_arr = myAsciiArt.convert(gfx);
-    /*
-      We can only watch ASCII art or display it against the background of the
-      original image from the camera. The flag controlling the display of the
-      image coming from the camera is switched by tap/click.
-    */
-    if (showOryginalImageFlag) image(myCapture, 0, 0, width, height);
-    /*
-      Now it's time to show ASCII art on the screen. First, we set drawing
-      parametrs. Next, we call the function typeArray2d() embedded in the
-      ASCII Art library, that writes the contents of a two-dimensional array
-      containing (implicitly) text characters (chars) on the screen. In this
-      case, we call a function with 2 parameters: the first is the table
-      whose contents we want to print, and the second is the destination (an
-      object with "canvas" property). If you use the function with two
-      parameters (as we do in this example), it will assume that you need to
-      fill the entire surface of the target canvass with a drawing. However,
-      the function can be called in 3 variants:
-        [AsciiArt instance].typeArray2d(_arr2d, _dst);
-        [AsciiArt instance].typeArray2d(_arr2d, _dst, _x, _y);
-        [AsciiArt instance].typeArray2d(_arr2d, _dst, _x, _y, _w, _h);
-      The parameters are as follows:
-        _arr2d - 2-dimentional array containing glyphs (chars)
-        _dst - destination (typically the sketch itself)
-        _x, _y - coordinates of the upper left corner
-        _w, _h - width and height
-      It is relatively easy to write your own function that formats the contents
-      of an array to ASCII graphics. At the end of this example, I glue the
-      function code from a non-minimized version of the library - it can be
-      used as a base for your own experiments.
-    */
-    myAsciiArt.typeArray2d(ascii_arr, this);
-  } else {
-    /*
-      If there are problems with the capture device (it's a simple mechanism so
-      not every problem with the camera will be detected, but it's better than
-      nothing) we will change the background color to alarmistically red.
-    */
-    //  background(255, 0, 0);
   }
+
+
+
+  //  gfx.line(mouseX, mouseY, pmouseX, pmouseY);
+  //  gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
+  /*
+    It is worth experimenting with the value of the parameter defining the
+    level of posterization. Depending on the characteristics of the image,
+    different values may have the best effect. And sometimes it is worth not
+    to apply the effect of posterization on the image.
+  */
+  //gfx.filter(POSTERIZE, 5);
+  /*
+    Here the processed image is converted to the ASCII art. The convert()
+    function in this case is used with just one parameter (image we want to
+    convert), so the resultant ASCII graphics will have the same resolution
+    as the image. If necessary (especially if the resolution of the converted
+    image is relatively high), it is possible to use the converter function
+    in the version with three parameters: then the second and third
+    parameters will be respectively the width and height of the generated
+    glyph table. The convert() function returns a two-dimensional array of
+    characters containing the representation of the converted graphics in the
+    form of the ASCII art. If the conversion fails, the function returns
+    null.
+  */
+  ascii_arr = myAsciiArt.convert(gfx);
+  /*
+    We can only watch ASCII art or display it against the background of the
+    original image from the camera. The flag controlling the display of the
+    image coming from the camera is switched by tap/click.
+  */
+  if (showOryginalImageFlag) image(myCapture, 0, 0, width, height);
+  /*
+    Now it's time to show ASCII art on the screen. First, we set drawing
+    parametrs. Next, we call the function typeArray2d() embedded in the
+    ASCII Art library, that writes the contents of a two-dimensional array
+    containing (implicitly) text characters (chars) on the screen. In this
+    case, we call a function with 2 parameters: the first is the table
+    whose contents we want to print, and the second is the destination (an
+    object with "canvas" property). If you use the function with two
+    parameters (as we do in this example), it will assume that you need to
+    fill the entire surface of the target canvass with a drawing. However,
+    the function can be called in 3 variants:
+      [AsciiArt instance].typeArray2d(_arr2d, _dst);
+      [AsciiArt instance].typeArray2d(_arr2d, _dst, _x, _y);
+      [AsciiArt instance].typeArray2d(_arr2d, _dst, _x, _y, _w, _h);
+    The parameters are as follows:
+      _arr2d - 2-dimentional array containing glyphs (chars)
+      _dst - destination (typically the sketch itself)
+      _x, _y - coordinates of the upper left corner
+      _w, _h - width and height
+    It is relatively easy to write your own function that formats the contents
+    of an array to ASCII graphics. At the end of this example, I glue the
+    function code from a non-minimized version of the library - it can be
+    used as a base for your own experiments.
+  */
+  myAsciiArt.typeArray2d(ascii_arr, this);
 }
 
 
@@ -297,4 +282,17 @@ typeArray2d = function(_arr2d, _dst, _x, _y, _w, _h) {
         offset_x + temp_x * dist_hor,
         offset_y + temp_y * dist_ver
       );
+}
+
+function keyPressed() {
+
+  if (keyCode === ENTER) {
+    mode = 0;
+
+  } else if (keyCode === UP_ARROW) {
+    mode = 1;
+
+  } else if (keyCode === LEFT_ARROW) {
+    mode = 2;
+  }
 }
