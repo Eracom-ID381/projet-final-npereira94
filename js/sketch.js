@@ -83,7 +83,7 @@ function setup() {
     sketch.
   */
   textAlign(CENTER, CENTER);
-  textFont('monospace', 8);
+  textFont('monospace', 15);
   textStyle(NORMAL);
   noStroke();
   fill(255);
@@ -258,4 +258,12 @@ typeArray2d = function(_arr2d, _dst, _x, _y, _w, _h) {
         offset_x + temp_x * dist_hor,
         offset_y + temp_y * dist_ver
       );
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    value = 255;
+  } else if (keyCode === RIGHT_ARROW) {
+    value = 0;
+  }
 }
