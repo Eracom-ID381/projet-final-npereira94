@@ -10,10 +10,6 @@ var myAsciiArt;
 */
 var asciiart_width = 120;
 var asciiart_height = 60;
-
-/*
-  Video capture device.
-*/
 var myCapture
 
 /*
@@ -43,10 +39,10 @@ function initCaptureDevice() {
     myCapture.size(320, 240);
     myCapture.elt.setAttribute('playsinline', '');
     myCapture.hide();
-    console.log(
-      '[initCaptureDevice] capture ready. Resolution: ' +
-      myCapture.width + ' ' + myCapture.height
-    );
+    // console.log(
+    //   '[initCaptureDevice] capture ready. Resolution: ' +
+    //   myCapture.width + ' ' + myCapture.height
+    // );
   } catch (_err) {
     console.log('[initCaptureDevice] capture error: ' + _err);
   }
@@ -60,7 +56,7 @@ function setup() {
     the target graphic.
   */
   gfx = createGraphics(asciiart_width, asciiart_height);
-  gfx.pixelDensity(1);
+  //gfx.pixelDensity(1);
   /*
     Here we create an object derived from the AsciiArt pseudo-class from the
     p5.asciiart library:
@@ -83,7 +79,7 @@ function setup() {
     sketch.
   */
   textAlign(CENTER, CENTER);
-  textFont('monospace', 15);
+  textFont('monospace', 8);
   textStyle(NORMAL);
   noStroke();
   fill(255);
@@ -94,6 +90,10 @@ function setup() {
 }
 
 function draw() {
+  let mappedX = map(mouseX, 0, width, 0, 120);
+  let mappedY = map(mouseY, 0, height, 0, 60);
+
+
   if (myCapture !== null && myCapture !== undefined) { // safety first
     background(0);
     /*
@@ -103,15 +103,23 @@ function draw() {
       before transferring the image for conversion - to perform the posterize
       effect on it, which will make the final effect better.
     */
-    gfx.background(0);
-    gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
+    //gfx.background(0);
+
+    if (mouseIsPressed) {
+      gfx.stroke(255, 10);
+      gfx.strokeWeight(1);
+      gfx.ellipse(mappedX, mappedY, 1, 1);
+
+    }
+    //  gfx.line(mouseX, mouseY, pmouseX, pmouseY);
+    //  gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
     /*
       It is worth experimenting with the value of the parameter defining the
       level of posterization. Depending on the characteristics of the image,
       different values may have the best effect. And sometimes it is worth not
       to apply the effect of posterization on the image.
     */
-    gfx.filter(POSTERIZE, 5);
+    //gfx.filter(POSTERIZE, 5);
     /*
       Here the processed image is converted to the ASCII art. The convert()
       function in this case is used with just one parameter (image we want to
@@ -166,6 +174,7 @@ function draw() {
     background(255, 0, 0);
   }
 }
+
 
 function mouseReleased() {
   /*
@@ -262,7 +271,7 @@ typeArray2d = function(_arr2d, _dst, _x, _y, _w, _h) {
 }
 
 function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
+  if (keyCode === UP_ARROW) {
     value = 255;
   } else if (keyCode === RIGHT_ARROW) {
     value = 0;
