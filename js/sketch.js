@@ -29,15 +29,15 @@ var ascii_arr;
   from the camera. We will switch the flag with taps/clicks.
 */
 var showOryginalImageFlag = false;
-
+var mode = 0;
 /*
   Here we are trying to get access to the camera.
 */
 function initCaptureDevice() {
   try {
     myCapture = createCapture(VIDEO);
-    myCapture.size(320, 240);
-    myCapture.elt.setAttribute('playsinline', '');
+    //myCapture.size(320, 240);
+    //myCapture.elt.setAttribute('playsinline', '');
     myCapture.hide();
     // console.log(
     //   '[initCaptureDevice] capture ready. Resolution: ' +
@@ -81,8 +81,8 @@ function setup() {
   textAlign(CENTER, CENTER);
   textFont('monospace', 8);
   textStyle(NORMAL);
-  noStroke();
-  fill(255);
+  //noStroke();
+  //  fill(255, 0, 0);
   /*
     Finally we set the framerate.
   */
@@ -103,13 +103,42 @@ function draw() {
       before transferring the image for conversion - to perform the posterize
       effect on it, which will make the final effect better.
     */
-    //gfx.background(0);
+
+
 
     if (mouseIsPressed) {
-      gfx.stroke(255, 10);
-      gfx.strokeWeight(1);
-      gfx.ellipse(mappedX, mappedY, 1, 1);
+      if (mode === 0) {
 
+        gfx.stroke(255, 0, 0);
+        fill(255, 0, 0);
+        gfx.strokeWeight(1);
+        gfx.line(mappedX, mappedY, mappedX, mappedY);
+      } else if (mode === 1) {
+
+        gfx.stroke(0, 255, 0);
+        fill(0);
+        gfx.strokeWeight(10);
+        gfx.line(mappedX, mappedY, mappedX, mappedY);
+      } else if (mode === 2) {
+        gfx.fill(0, 0, 255);
+        gfx.stroke(30, 100, 170);
+        gfx.strokeWeight(50);
+        gfx.line(mappedX, mappedY, mappedX, mappedY);
+      }
+    }
+
+    function keyPressed() {
+
+      if (keyCode === BACKSPACE) {
+        mode = 0;
+
+      } else if (keyCode === UP_ARROW) {
+        mode = 1;
+
+      } else if (keyCode === LEFT_ARROW) {
+        mode = 2;
+
+      }
     }
     //  gfx.line(mouseX, mouseY, pmouseX, pmouseY);
     //  gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
@@ -171,19 +200,19 @@ function draw() {
       not every problem with the camera will be detected, but it's better than
       nothing) we will change the background color to alarmistically red.
     */
-    background(255, 0, 0);
+    //  background(255, 0, 0);
   }
 }
 
 
-function mouseReleased() {
-  /*
-    The flag controlling the display of the image coming from the camera is
-    switched by tap/click.
-  */
+//function mouseReleased() {
+/*
+  The flag controlling the display of the image coming from the camera is
+  switched by tap/click.
+*/
 
-  //showOryginalImageFlag = !showOryginalImageFlag;
-}
+//showOryginalImageFlag = !showOryginalImageFlag;
+//}
 
 /*
   *****************************************************************************
@@ -268,12 +297,4 @@ typeArray2d = function(_arr2d, _dst, _x, _y, _w, _h) {
         offset_x + temp_x * dist_hor,
         offset_y + temp_y * dist_ver
       );
-}
-
-function keyPressed() {
-  if (keyCode === UP_ARROW) {
-    value = 255;
-  } else if (keyCode === RIGHT_ARROW) {
-    value = 0;
-  }
 }
