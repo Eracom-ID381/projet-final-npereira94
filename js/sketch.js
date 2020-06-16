@@ -108,25 +108,23 @@ function draw() {
   */
 
   if (mouseIsPressed) {
-    radius = radius + 0.1;
-    if (mode === 0) {
 
-      gfx.stroke(255, 0, 0);
-      gfx.fill(255, 0, 0, 128);
+    if (mode === 0) {
+      radius = radius + 0.1;
+      gfx.fill(255, 0, 0, 12);
       gfx.strokeWeight(1);
-      //  gfx.line(mappedX, mappedY, mappedX, mappedY);
       gfx.ellipse(mappedX, mappedY, radius, radius);
       console.log(radius)
 
     } else if (mode === 1) {
       gfx.stroke(0, 255, 0);
-      fill(0);
+      gfx.fill(255, 0, 0, 128);
       gfx.strokeWeight(10);
       gfx.line(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 2) {
-      gfx.fill(0, 0, 255);
-      gfx.stroke(30, 100, 170);
-      gfx.strokeWeight(50);
+      //gfx.fill(0, 0, 255);
+      gfx.stroke(0, 100);
+      gfx.strokeWeight(5);
       gfx.line(mappedX, mappedY, mappedX, mappedY);
     }
   }
