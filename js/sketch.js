@@ -28,29 +28,28 @@ var ascii_arr;
   And this flag will inform the program whether to display the source image
   from the camera. We will switch the flag with taps/clicks.
 */
-var showOryginalImageFlag = false;
+//var showOryginalImageFlag = false;
 var mode = 0;
-
 let radius = 0;
 
 
 /*
   Here we are trying to get access to the camera.
 */
-function initCaptureDevice() {
-  try {
-    //myCapture = createCapture(VIDEO);
-    //myCapture.size(320, 240);
-    //myCapture.elt.setAttribute('playsinline', '');
-    myCapture.hide();
-    // console.log(
-    //   '[initCaptureDevice] capture ready. Resolution: ' +
-    //   myCapture.width + ' ' + myCapture.height
-    // );
-  } catch (_err) {
-    console.log('[initCaptureDevice] capture error: ' + _err);
-  }
-}
+// function initCaptureDevice() {
+//   try {
+//     //myCapture = createCapture(VIDEO);
+//     //myCapture.size(320, 240);
+//     //myCapture.elt.setAttribute('playsinline', '');
+//     myCapture.hide();
+//     // console.log(
+//     //   '[initCaptureDevice] capture ready. Resolution: ' +
+//     //   myCapture.width + ' ' + myCapture.height
+//     // );
+//   } catch (_err) {
+//     console.log('[initCaptureDevice] capture error: ' + _err);
+//   }
+// }
 
 function setup() {
 
@@ -86,6 +85,7 @@ function setup() {
   textAlign(CENTER, CENTER);
   textFont('monospace', 8);
   textStyle(NORMAL);
+  //fill(random(0, 255), random(0, 255), random(0, 255));
   //noStroke();
   //  fill(255, 0, 0);
   /*
@@ -114,25 +114,26 @@ function draw() {
 
     if (mode === 0) {
       radius = radius + 0.1;
-      gfx.fill(255, 255, 0, 120);
+      fill(255, 0, 0);
       gfx.strokeWeight(1);
       gfx.ellipse(mappedX, mappedY, radius, radius);
-      console.log(radius)
+      //    console.log(radius)
 
     } else if (mode === 1) {
       gfx.stroke(0, 255, 0);
-      gfx.fill(255, 0, 0, 128);
+      fill(0, 255, 0);
       gfx.strokeWeight(10);
       gfx.square(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 2) {
-      //gfx.fill(0, 0, 255);
-      gfx.stroke(0, 100);
+      fill(0, 0, 255);
+      textFont('futura', 80);
+      gfx.stroke(0, 100, 0);
       gfx.strokeWeight(5);
       gfx.line(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 3) {
-      gfx.textFont('random', 8);
       gfx.noStroke();
-      gfx.fill(random(0, 200), random(0, 200), random(0, 200));
+      fill(255, 0, 255);
+
       variableEllipse(mouseX, mouseY, pmouseX, pmouseY);
     }
   }
@@ -173,7 +174,7 @@ function draw() {
     original image from the camera. The flag controlling the display of the
     image coming from the camera is switched by tap/click.
   */
-  if (showOryginalImageFlag) image(myCapture, 0, 0, width, height);
+  //if (showOryginalImageFlag) image(myCapture, 0, 0, width, height);
   /*
     Now it's time to show ASCII art on the screen. First, we set drawing
     parametrs. Next, we call the function typeArray2d() embedded in the
