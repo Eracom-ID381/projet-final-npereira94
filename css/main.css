@@ -1,4 +1,4 @@
-.container {
+.container1 {
   position: relative;
   width: 100%;
   max-width: 400px;
@@ -9,7 +9,7 @@
   height: auto;
 }
 
-.container .btn {
+.container1 .btn {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -25,12 +25,12 @@
   text-align: center;
 }
 
-.container .btn:hover {
+.container1 .btn:hover {
   background-color: black;
   color: white;
 }
 
 .welcome {
   font-size: 24px;
-  color: 255, 0, 0);
+  color: pink;
 }
