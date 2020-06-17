@@ -114,15 +114,15 @@ function draw() {
 
     if (mode === 0) {
       radius = radius + 0.1;
-      fill(255, 0, 0);
+      fill(random(0, 255), random(0, 255), random(0, 255));
       gfx.strokeWeight(1);
       gfx.ellipse(mappedX, mappedY, radius, radius);
       //    console.log(radius)
 
     } else if (mode === 1) {
       gfx.stroke(0, 255, 0);
-      fill(0, 255, 0);
-      gfx.strokeWeight(10);
+      fill(255, 0, 0);
+      gfx.strokeWeight(random(0, 255));
       gfx.square(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 2) {
       fill(0, 0, 255);
