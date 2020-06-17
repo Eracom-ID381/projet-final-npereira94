@@ -32,6 +32,8 @@ var showOryginalImageFlag = false;
 var mode = 0;
 
 let radius = 0;
+
+
 /*
   Here we are trying to get access to the camera.
 */
@@ -51,8 +53,9 @@ function initCaptureDevice() {
 }
 
 function setup() {
+
   createCanvas(windowWidth, windowHeight);
-  initCaptureDevice(); // and access to the camera
+  //  initCaptureDevice(); // and access to the camera
   /*
     In this particular case the gfx helper should have dimensions the same as
     the target graphic.
@@ -111,7 +114,7 @@ function draw() {
 
     if (mode === 0) {
       radius = radius + 0.1;
-      gfx.fill(255, 0, 0, 12);
+      gfx.fill(255, 255, 0, 120);
       gfx.strokeWeight(1);
       gfx.ellipse(mappedX, mappedY, radius, radius);
       console.log(radius)
@@ -120,13 +123,24 @@ function draw() {
       gfx.stroke(0, 255, 0);
       gfx.fill(255, 0, 0, 128);
       gfx.strokeWeight(10);
-      gfx.line(mappedX, mappedY, mappedX, mappedY);
+      gfx.square(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 2) {
       //gfx.fill(0, 0, 255);
       gfx.stroke(0, 100);
       gfx.strokeWeight(5);
       gfx.line(mappedX, mappedY, mappedX, mappedY);
+    } else if (mode === 3) {
+      gfx.textFont('random', 8);
+      gfx.noStroke();
+      gfx.fill(random(0, 200), random(0, 200), random(0, 200));
+      variableEllipse(mouseX, mouseY, pmouseX, pmouseY);
     }
+  }
+
+  function variableEllipse(x, y, px, py) {
+    let speed = abs(x - px) + abs(y - py);
+    stroke(speed);
+    gfx.ellipse(mappedX, mappedY, speed, speed);
   }
 
 
@@ -292,5 +306,9 @@ function keyPressed() {
 
   } else if (keyCode === LEFT_ARROW) {
     mode = 2;
+  } else if (keyCode === DOWN_ARROW) {
+    mode = 3;
+  } else if (keyCode === RIGHT_ARROW) {
+    mode = 4;
   }
 }
