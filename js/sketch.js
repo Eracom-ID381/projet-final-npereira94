@@ -301,10 +301,8 @@ function keyPressed() {
 
   if (keyCode === ENTER) {
     mode = 0;
-
   } else if (keyCode === UP_ARROW) {
     mode = 1;
-
   } else if (keyCode === LEFT_ARROW) {
     mode = 2;
   } else if (keyCode === DOWN_ARROW) {
