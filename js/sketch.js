@@ -53,12 +53,13 @@ let radius = 0;
 
 function setup() {
 
-  createCanvas(windowWidth, windowHeight);
+  const c = createCanvas(windowWidth, windowHeight);
   //  initCaptureDevice(); // and access to the camera
   /*
     In this particular case the gfx helper should have dimensions the same as
     the target graphic.
   */
+  c.drop(gotFile);
   gfx = createGraphics(asciiart_width, asciiart_height);
   //gfx.pixelDensity(1);
   /*
@@ -92,6 +93,18 @@ function setup() {
     Finally we set the framerate.
   */
   frameRate(30);
+}
+
+function gotFile(file) {
+  // If it's an image file
+  if (file.type === 'image') {
+    // Create an image DOM element but don't show it
+    const img = createImg(file.data).hide();
+    // Draw the image onto the canvas
+    image(img, 0, 0, width, height);
+  } else {
+    console.log('Not an image file!');
+  }
 }
 
 function draw() {
@@ -143,6 +156,7 @@ function draw() {
     stroke(speed);
     gfx.ellipse(mappedX, mappedY, speed, speed);
   }
+
 
 
 
