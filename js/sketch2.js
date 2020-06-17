@@ -40,7 +40,7 @@ var showOryginalImageFlag = false;
 function initCaptureDevice() {
   try {
     myCapture = createCapture(VIDEO);
-    myCapture.size(320, 240);
+    myCapture.size(windowWidth, windowHeight);
     myCapture.elt.setAttribute('playsinline', '');
     myCapture.hide();
     console.log(
@@ -54,7 +54,7 @@ function initCaptureDevice() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  createCanvas(640, 480); // we need some space...
+
   initCaptureDevice(); // and access to the camera
   /*
     In this particular case the gfx helper should have dimensions the same as
@@ -84,7 +84,7 @@ function setup() {
     sketch.
   */
   textAlign(CENTER, CENTER);
-  textFont('monospace', 8);
+  textFont('monospace', 20);
   textStyle(NORMAL);
   noStroke();
   fill(255);
@@ -262,3 +262,4 @@ function windowResized() {
           offset_y + temp_y * dist_ver
         );
   }
+}
