@@ -126,7 +126,7 @@ function draw() {
       gfx.square(mappedX, mappedY, mappedX, mappedY);
     } else if (mode === 2) {
       fill(0, 0, 255);
-      textFont('futura', 80);
+      textFont('futura', 20);
       gfx.stroke(0, 100, 0);
       gfx.strokeWeight(5);
       gfx.line(mappedX, mappedY, mappedX, mappedY);
